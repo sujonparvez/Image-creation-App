@@ -171,7 +171,7 @@ function drawHeader() {
     ctx.fillRect(0, 0, canvas.width, barHeight);
 
     // 2. Setup Category text to measure its width
-    ctx.font = "700 32px 'Hind Siliguri'";
+    ctx.font = "700 32px 'LiMehdiEkushey'";
     const categoryText = (categoryInput.value || "NEWS").toUpperCase();
     const textWidth = ctx.measureText(categoryText).width;
     const boxPadding = 20; // Padding inside the red box
@@ -189,7 +189,7 @@ function drawHeader() {
 
     // 5. Draw the Date text aligned to the right side of the canvas
     ctx.fillStyle = "#666666";
-    ctx.font = "700 24px 'Hind Siliguri'";
+    ctx.font = "700 24px 'LiMehdiEkushey'";
     ctx.textAlign = "right";
     ctx.fillText(dateInput.value, canvas.width - margin, barHeight / 2 + 2);
 }
@@ -252,7 +252,7 @@ function drawHeadline() {
     const maxWidth = canvas.width - (CONFIG.padding * 2);         // Usable width for text wrapping
 
     // Set text styling
-    ctx.font = "700 56px 'Hind Siliguri'";
+    ctx.font = "900 56px 'LiMehdiEkushey'";
     ctx.textBaseline = "top";
 
     // STEP 1: PARSING - Convert raw text into an array of color-aware "Tokens"
@@ -350,7 +350,7 @@ function drawHeadline() {
 function drawFooter() {
     const margin = 40; // 40px padding distance from bottom-left
     ctx.fillStyle = "#555555";
-    ctx.font = "500 24px 'Hind Siliguri'";
+    ctx.font = "500 24px 'LiMehdiEkushey'";
     ctx.textAlign = "left";
 
     // String interpolation embeds user input string

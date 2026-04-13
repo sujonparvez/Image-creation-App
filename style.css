@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'LiMehdiEkushey';
+    src: url("Li Mehdi Ekushey Unicode.ttf") format("truetype");
+}
+
 :root {
     --primary: #c32026;
     --primary-dark: #a01a1f;
@@ -17,7 +22,7 @@
 body {
     background-color: var(--bg-dark);
     color: var(--text-light);
-    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    font-family: 'Inter', 'LiMehdiEkushey', sans-serif;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -125,7 +130,7 @@ input[type="text"], textarea, select.styled-select {
     border-radius: 8px;
     padding: 12px;
     color: white;
-    font-family: 'Hind Siliguri', sans-serif;
+    font-family: 'LiMehdiEkushey', sans-serif;
     outline: none;
     transition: all 0.3s;
 }
