@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Card Pro - Generate Professional News Images</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <span class="pulse"></span>
+                <h1>News Card <span>Pro</span></h1>
+            </div>
+            <p class="tagline">Create stunning news cards in seconds</p>
+        </header>
+
+        <main class="editor-area">
+            <!-- Sidebar Controls -->
+            <aside class="controls">
+                <div class="control-group">
+                    <label for="imageUpload">Upload News Image</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="imageUpload" accept="image/*">
+                        <div class="file-dummy">
+                            <span class="icon">📸</span>
+                            <span class="text">Choose an image or drag here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="headline">Headline (Bengali)</label>
+                    <textarea id="headline" placeholder="এখানে শিরোনাম লিখুন..." rows="3"></textarea>
+                    <p class="hint">Use [ ] for red text, e.g., [যুগোপযোগী আইন]</p>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" value="রাজনীতি">
+                    </div>
+                    <div class="control-group">
+                        <label for="date">Date</label>
+                        <input type="text" id="date" placeholder="১১ এপ্রিল ২০২৩">
+                    </div>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group">
+                        <label for="source">Source</label>
+                        <input type="text" id="source" value="বার্তা বাজার">
+                    </div>
+                    <div class="control-group">
+                        <label for="bgStyle">Grid Style</label>
+                        <select id="bgStyle" class="styled-select">
+                            <option value="classic">Classic Gray</option>
+                            <option value="blue">Blueish Print</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="downloadBtn" class="primary-btn">
+                    <span class="icon">📥</span> Download Image
+                </button>
+            </aside>
+
+            <!-- Preview Section -->
+            <section class="preview-panel">
+                <div class="canvas-wrapper">
+                    <canvas id="newsCanvas" width="1080" height="1080"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
