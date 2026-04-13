@@ -19,6 +19,7 @@ const categoryInput = document.getElementById('category');
 const dateInput = document.getElementById('date');
 const sourceInput = document.getElementById('source');
 const bgStyleInput = document.getElementById('bgStyle');
+const headlineSizeInput = document.getElementById('headlineSize');
 const downloadBtn = document.getElementById('downloadBtn');
 
 // Variable to store the loaded image object
@@ -40,11 +41,18 @@ const CONFIG = {
     colors: {
         primary: '#c32026',   // Bold Red (used for Category box and highlighted text)
         text: '#000000',      // Standard black text
-        bg: '#ffffff',        // Canvas overall background color
-        gridClassic: '#f1f1f1',// Faint gray color for the background grid pattern
-        gridBlue: '#dbeafe'    // Blueish print background grid pattern
+        bg: '#ffffff'         // Canvas overall background color
     }
 };
+
+// Preload background images
+const bg1Img = new Image();
+bg1Img.src = 'bg1.jpeg';
+bg1Img.onload = () => { if (bgStyleInput.value === 'bg1') render(); };
+
+const bg2Img = new Image();
+bg2Img.src = 'bg2.jpeg';
+bg2Img.onload = () => { if (bgStyleInput.value === 'bg2') render(); };
 
 /*
   init() function
@@ -77,7 +85,7 @@ function init() {
   to update the preview.
 */
 // Redraw immediately when any text field changes
-[headlineInput, categoryInput, dateInput, sourceInput, bgStyleInput].forEach(el => {
+[headlineInput, categoryInput, dateInput, sourceInput, bgStyleInput, headlineSizeInput].forEach(el => {
     el.addEventListener('input', render);
 });
 
@@ -120,39 +128,45 @@ function render() {
 
     // STEP 2: Draw the elements layer by layer
     drawImage();      // Draws the uploaded image (or placeholder)
-    drawGrid();       // Draws the faint grid pattern below the image
+    drawHeadlineBg(); // Draws the optional background under the headline
     drawHeader();     // Draws the Category box and Date text
     drawHeadline();   // Draws the main headline (processing the red [text] syntax)
     drawFooter();     // Draws "Source: Name" at the bottom
 }
 
 /*
-  drawGrid()
-  ----------
-  Draws horizontal and vertical lines in the text area to give a premium 
-  journalistic / "graph paper" aesthetic.
+  drawHeadlineBg()
+  ----------------
+  Fills the lower portion of the image with a custom uploaded background.
 */
-function drawGrid() {
-    ctx.strokeStyle = bgStyleInput.value === 'blue' ? CONFIG.colors.gridBlue : CONFIG.colors.gridClassic;
-    ctx.lineWidth = 1;
+function drawHeadlineBg() {
+    const yStart = CONFIG.headerHeight + CONFIG.imageMargin + CONFIG.imageHeight; // Start directly below the photo
+    const drawHeight = canvas.height - yStart;
 
-    // We only want the grid to start below the header and image
-    const yStart = CONFIG.headerHeight + CONFIG.imageMargin + CONFIG.imageHeight;
+    let bgImgSource = null;
+    if (bgStyleInput.value === 'bg1' && bg1Img.complete) bgImgSource = bg1Img;
+    if (bgStyleInput.value === 'bg2' && bg2Img.complete) bgImgSource = bg2Img;
 
-    // Draw Vertical lines every 40 pixels
-    for (let x = 0; x < canvas.width; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, yStart);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-    }
+    if (bgImgSource && bgImgSource.width > 0) {
+        // Calculate Aspect Ratios to figure out how to crop the background image cleanly
+        const imgRatio = bgImgSource.width / bgImgSource.height;
+        const targetRatio = canvas.width / drawHeight;
 
-    // Draw Horizontal lines every 40 pixels
-    for (let y = yStart; y < canvas.height; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
+        let sw, sh, sx, sy;
+
+        if (imgRatio > targetRatio) {
+            sh = bgImgSource.height;
+            sw = sh * targetRatio;
+            sx = (bgImgSource.width - sw) / 2;
+            sy = 0;
+        } else {
+            sw = bgImgSource.width;
+            sh = sw / targetRatio;
+            sx = 0;
+            sy = (bgImgSource.height - sh) / 2;
+        }
+
+        ctx.drawImage(bgImgSource, sx, sy, sw, sh, 0, yStart, canvas.width, drawHeight);
     }
 }
 
@@ -252,7 +266,8 @@ function drawHeadline() {
     const maxWidth = canvas.width - (CONFIG.padding * 2);         // Usable width for text wrapping
 
     // Set text styling
-    ctx.font = "900 56px 'LiMehdiEkushey'";
+    const fontSize = parseInt(headlineSizeInput.value) || 77;
+    ctx.font = `800 ${fontSize}px 'LiMehdiEkushey'`;
     ctx.textBaseline = "top";
 
     // STEP 1: PARSING - Convert raw text into an array of color-aware "Tokens"
@@ -290,7 +305,7 @@ function drawHeadline() {
     const lines = []; // Will hold an array of "line" objects
     let currentLineTokens = []; // Holds tokens belonging to the current row
     let currentLineWidth = 0;   // Keeps track of pixel width so we know when to wrap
-    const spaceWidth = ctx.measureText(" ").width; // Calculate width of a simple standard space
+    const spaceWidth = ctx.measureText(" ").width * 0.6; // Calculate width of a simple standard space and reduce it slightly
 
     tokens.forEach(token => {
         const tokenWidth = ctx.measureText(token.text).width;
@@ -338,7 +353,7 @@ function drawHeadline() {
             startX += ctx.measureText(token.text).width + (index < line.tokens.length - 1 ? spaceWidth : 0);
         });
 
-        currentY += 80; // Add fixed +80 pixels line-height before moving to next row
+        currentY += fontSize * 1.15; // Add dynamic tighter line-height before moving to next row
     });
 }
 

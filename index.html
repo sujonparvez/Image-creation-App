@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Card Pro - Generate Professional News Images</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <header class="app-header">
@@ -39,6 +43,11 @@
                     <p class="hint">Use [ ] for red text, e.g., [যুগোপযোগী আইন]</p>
                 </div>
 
+                <div class="control-group">
+                    <label for="headlineSize">Headline Font Size (px)</label>
+                    <input type="number" id="headlineSize" value="77" min="20" max="150" class="styled-select">
+                </div>
+
                 <div class="control-row">
                     <div class="control-group">
                         <label for="category">Category</label>
@@ -56,10 +65,10 @@
                         <input type="text" id="source" value="বার্তা বাজার">
                     </div>
                     <div class="control-group">
-                        <label for="bgStyle">Grid Style</label>
+                        <label for="bgStyle">Headline Background</label>
                         <select id="bgStyle" class="styled-select">
-                            <option value="classic">Classic Gray</option>
-                            <option value="blue">Blueish Print</option>
+                            <option value="bg1">Background 1</option>
+                            <option value="bg2">Background 2</option>
                         </select>
                     </div>
                 </div>
@@ -79,4 +88,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
